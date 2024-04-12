@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verbos en Inglés - Juego</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#feedback {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+#score {
+  margin-top: 20px;
+}
+
+#lives {
+  margin-top: 10px;
+  font-style: italic;
+  color: #f00;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>¡a jugar princesa ZAHIRA Verbos en Inglés!</h1>
+  <p>Escribe el verbo en pasado de: <span id="presentVerb"></span></p>
+  <input type="text" id="answerInput">
+  <button onclick="checkAnswer()">Verificar</button>
+  <p id="feedback"></p>
+  <p id="score">Puntaje: 0</p>
+  <p id="lives">Vidas restantes: 8</p>
+</div>
+<script>
+const verbos = [
+  { presente: "am/is", pasado: "was" },
+  { presente: "are", pasado: "were" },
+  { presente: "do", pasado: "did" },
+  { presente: "go", pasado: "went" },
+  { presente: "eat", pasado: "ate" },
+  { presente: "have", pasado: "had" },
+  { presente: "make", pasado: "made" },
+  { presente: "take", pasado: "took" },
+  { presente: "see", pasado: "saw" },
+  { presente: "fly", pasado: "flew" },
+  { presente: "sell", pasado: "sold" },
+  { presente: "tell", pasado: "told" },
+  { presente: "find", pasado: "found" },
+  { presente: "send", pasado: "sent" },
+  { presente: "buy", pasado: "bought" },
+  { presente: "bring", pasado: "brought" },
+  { presente: "teach", pasado: "taught" },
+  { presente: "think", pasado: "thought" }
+];
+
+let currentIndex = 0;
+let score = 0;
+let lives = 5;
+
+function displayVerb() {
+  document.getElementById("presentVerb").textContent = verbos[currentIndex].presente;
+}
+
+function checkAnswer() {
+  const answerInput = document.getElementById("answerInput");
+  const feedback = document.getElementById("feedback");
+  const userAnswer = answerInput.value.trim().toLowerCase();
+  const correctAnswer = verbos[currentIndex].pasado.toLowerCase();
+  
+  if (userAnswer === correctAnswer) {
+    feedback.textContent = "¡Felicitaciones ZAHIRA!";
+    score += 10;
+    currentIndex++;
+    answerInput.value = "";
+    displayVerb();
+  } else {
+    feedback.textContent = `!Respuesta incorrecta¡. El verbo en pasado es: "${correctAnswer}".`;
+    lives--;
+    document.getElementById("lives").textContent = `Vidas restantes: ${lives}`;
+    if (lives === 0) {
+      endGame();
+      return;
+    }
+  }
+
+  document.getElementById("score").textContent = `Puntaje: ${score}`;
+
+  if (currentIndex === verbos.length) {
+    endGame();
+  }
+}
+
+function endGame() {
+  const feedback = document.getElementById("feedback");
+  const scoreDisplay = document.getElementById("score");
+  feedback.textContent = `¡Fin del juego! Puntaje total: ${score}`;
+  scoreDisplay.textContent = "";
+  document.getElementById("answerInput").disabled = true;
+  document.querySelector("button").disabled = true;
+}
+
+displayVerb();
+</script>
+</body>
+</html>
